@@ -22,9 +22,9 @@ class TaskScheduler
 
 		std::vector<std::thread> m_Threads;
 
-		std::queue<Task*> m_Tasks;
+		std::queue<Task> m_Tasks;
 
-		std::vector<Task*> m_CompletedTasks;
+		std::vector<Task> m_CompletedTasks;
 
 		int TaskCounter;
 
@@ -33,6 +33,6 @@ class TaskScheduler
 		void StartThreads(int _Threads);
 		void Running();
 		void EndThreads();
-}
+};
 
 #endif
