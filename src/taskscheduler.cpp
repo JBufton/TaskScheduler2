@@ -1,4 +1,4 @@
-#include "TaskScheduler.h"
+#include "../include/TaskScheduler.h"
 
 TaskScheduler::TaskScheduler()
 {
@@ -11,27 +11,6 @@ TaskScheduler::TaskScheduler()
 TaskScheduler::TaskScheduler(int _Threads)
 {
 	StartThreads(_Threads);
-}
-
-TaskScheduler::~TaskScheduler()
-{
-	StopThreads();
-}
-
-void TaskScheduler::StartThreads(int _Threads)
-{
-	for(size_t i = 0; i < _Threads; i++)
-	{
-		m_Threads.push_back(std::thread(Running));
-	}
-}
-
-void TaskScheduler::StopThreads()
-{
-	for(auto i : m_Threads)
-	{
-		i.join();
-	}
 }
 
 void TaskScheduler::Running()
@@ -62,6 +41,29 @@ void TaskScheduler::Running()
 		}
 	}
 }
+
+void TaskScheduler::StartThreads(int _Threads)
+{
+	for(size_t i = 0; i < _Threads; i++)
+	{
+		m_Threads.push_back(std::thread(Running));
+	}
+}
+
+void TaskScheduler::StopThreads()
+{
+	for(auto i : m_Threads)
+	{
+		i.join();
+	}
+}
+
+TaskScheduler::~TaskScheduler()
+{
+	StopThreads();
+}
+
+
 
 std::string TaskScheduler::CheckProgress(int _TaskID)
 {
