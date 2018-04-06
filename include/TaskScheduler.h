@@ -10,9 +10,10 @@
 class TaskScheduler
 {
 	public:
+		TaskScheduler();
 		TaskScheduler(int _Threads);
 		~TaskScheduler();
-	
+
 		int SubmitTask( std::function<void()> _Function );
 
 		std::string CheckProgress( int _TaskID );

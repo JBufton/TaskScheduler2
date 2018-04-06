@@ -1,5 +1,13 @@
 #include "TaskScheduler.h"
 
+TaskScheduler::TaskScheduler()
+{
+	// -1 because of the main thread
+	int Threads = std::thread::hardware_concurrency() - 1;
+
+	StartThreads(Threads);
+}
+
 TaskScheduler::TaskScheduler(int _Threads)
 {
 	StartThreads(_Threads);
@@ -55,7 +63,7 @@ void TaskScheduler::Running()
 	}
 }
 
-std::string CheckProgress(int _TaskID)
+std::string TaskScheduler::CheckProgress(int _TaskID)
 {
 	for(auto i : m_Tasks)
 	{
