@@ -26,13 +26,13 @@ void TaskScheduler::Running()
 			m_Lock.lock();
 
 			// Take top task off of the pile
-			tempTask = m_Tasks.pop();
+			tempTask = m_Tasks.front();
 
 			// Unlock
-			m_Lock.unlock()
+			m_Lock.unlock();
 
 				// Run the task
-			tempTask->Run();
+			tempTask.Run();
 
 			// Put the task on the completed tasks pile
 			// Not sure this is correct as the vector is a vector of pointers rather than objects
@@ -49,6 +49,8 @@ void TaskScheduler::StartThreads(int _Threads)
 		m_Threads.push_back(std::thread(Running));
 	}
 }
+
+
 
 void TaskScheduler::StopThreads()
 {
