@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <thread>
-#include <queue>
 #include <mutex>
 #include "Task.h"
 
@@ -23,17 +22,17 @@ class TaskScheduler
 
 		std::vector<std::thread> m_Threads;
 
-		std::queue<Task> m_Tasks;
+		std::vector<Task> m_Tasks;
 
 		std::vector<Task> m_CompletedTasks;
 
-		int TaskCounter;
-
 		bool m_Running = false;
+
+		int m_TaskCounter;
 
 		void StartThreads(int _Threads);
 		void Running();
-		void EndThreads();
+		void StopThreads();
 };
 
 #endif

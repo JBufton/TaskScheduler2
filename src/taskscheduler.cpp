@@ -27,11 +27,12 @@ void TaskScheduler::Running()
 
 			// Take top task off of the pile
 			tempTask = m_Tasks.front();
+			
+			m_Tasks.erase( m_Tasks.begin() );;
 
 			// Unlock
 			m_Lock.unlock();
-
-				// Run the task
+			// Run the task
 			tempTask.Run();
 
 			// Put the task on the completed tasks pile
@@ -46,7 +47,7 @@ void TaskScheduler::StartThreads(int _Threads)
 {
 	for(size_t i = 0; i < _Threads; i++)
 	{
-		m_Threads.push_back(std::thread(Running));
+		m_Threads.push_back( std::thread( &TaskScheduler::Running, this ) );
 	}
 }
 
@@ -54,9 +55,9 @@ void TaskScheduler::StartThreads(int _Threads)
 
 void TaskScheduler::StopThreads()
 {
-	for(auto i : m_Threads)
+	for( size_t i = 0; i < m_Threads.size(); ++i)
 	{
-		i.join();
+		m_Threads[i].join();
 	}
 }
 
@@ -66,23 +67,30 @@ TaskScheduler::~TaskScheduler()
 }
 
 
+int TaskScheduler::SubmitTask( std::function<void()> _Function )
+{
+	m_Tasks.push_back( Task( _Function, m_TaskCounter) );
+	m_TaskCounter++;
+}
+
 
 std::string TaskScheduler::CheckProgress(int _TaskID)
 {
-	for(auto i : m_Tasks)
+	for(size_t i = 0; i < m_Tasks.size(); ++i)
 	{
-		if(i.GetID() == _TaskID)
+		if(m_Tasks[i].GetID() == _TaskID)
 		{
 			return "New";
 		}
 	}
 
-	for(auto i : m_CompletedTasks)
+	for(size_t i = 0; i < m_CompletedTasks.size(); ++i)
 	{
-		if(i.GetID() == _TaskID)
+		if(m_CompletedTasks[i].GetID() == _TaskID)
 		{
 			return "Completed";
 		}
 	}
 
 	return "In Progress";
+}

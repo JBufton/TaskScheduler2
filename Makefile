@@ -9,7 +9,7 @@ STDFLAGS = c++11
 all: $(TARGET)
 
 $(TARGET): $(TARGET).cpp
-	$(CC) -o $(TARGET) --std=$(STDFLAGS)  $(TARGET).cpp $(FILES)
+	$(CC) -o $(TARGET) --std=$(STDFLAGS) $(TARGET).cpp $(FILES)
 
 clean:
 	$(RM) $(TARGET) $(OBJECTS)
