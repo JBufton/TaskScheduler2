@@ -8,6 +8,11 @@ void SecondTask()
 
 void TestTask()
 {
+	int temp = 0;
+	while( temp < 99999999 )
+	{
+		temp++;
+	}
 	std::cout << "Task is being performed!" << std::endl;
 }
 
